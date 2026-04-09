@@ -1,0 +1,22 @@
+{
+  "fixes": [
+    {
+      "issue_id": "CRIT-001",
+      "priority": 1,
+      "action": "修复：Excel 解析失败率过高",
+      "approach": "最小改动，不重构",
+      "estimate": "2-4 小时",
+      "test_required": true
+    },
+    {
+      "issue_id": "HIGH-001",
+      "priority": 2,
+      "action": "优化：企业识别准确率低",
+      "approach": "增强识别算法",
+      "estimate": "4-8 小时",
+      "test_required": true
+    }
+  ],
+  "total_estimate": "1-2 天",
+  "recommendation": "优先修复 critical 和 high 级别问题"
+}

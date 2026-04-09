@@ -1,0 +1,129 @@
+{
+  "project_structure": {
+    "frontend/": {
+      "src/": {
+        "components/": [
+          "UploadForm.tsx",
+          "EntityList.tsx",
+          "ReviewPanel.tsx"
+        ],
+        "pages/": [
+          "Home.tsx",
+          "Review.tsx"
+        ],
+        "services/": [
+          "api.ts"
+        ],
+        "types/": [
+          "index.ts"
+        ]
+      },
+      "package.json": "",
+      "vite.config.ts": ""
+    },
+    "backend/": {
+      "app/": {
+        "main.py": "",
+        "api/": [
+          "upload.py",
+          "recognition.py",
+          "search.py",
+          "export.py"
+        ],
+        "services/": [
+          "excel_parser.py",
+          "entity_recognizer.py",
+          "registry_api.py"
+        ],
+        "models/": [
+          "entity.py",
+          "search_result.py"
+        ]
+      },
+      "requirements.txt": "",
+      "Dockerfile": ""
+    },
+    "docker-compose.yml": ""
+  },
+  "modules": [
+    {
+      "name": "Excel Parser",
+      "responsibility": "解析用户上传的 Excel 文件，处理各种格式变体",
+      "interface": "parse_excel(file) -> List[RawRecord]"
+    },
+    {
+      "name": "Entity Recognizer",
+      "responsibility": "从原始记录中识别企业主体",
+      "interface": "recognize(raw_records) -> List[Entity]"
+    },
+    {
+      "name": "Registry API Client",
+      "responsibility": "调用查册接口获取企业信息",
+      "interface": "search(entities) -> List[SearchResult]"
+    },
+    {
+      "name": "Review Manager",
+      "responsibility": "管理人工复核流程",
+      "interface": "submit_review(entity_id, decision, notes)"
+    },
+    {
+      "name": "Export Service",
+      "responsibility": "导出结果为 CSV/Excel",
+      "interface": "export(results, format) -> file"
+    }
+  ],
+  "api_endpoints": [
+    {
+      "method": "POST",
+      "path": "/api/upload",
+      "description": "上传 Excel 文件"
+    },
+    {
+      "method": "GET",
+      "path": "/api/entities",
+      "description": "获取识别后的实体列表"
+    },
+    {
+      "method": "POST",
+      "path": "/api/search",
+      "description": "批量查册"
+    },
+    {
+      "method": "GET",
+      "path": "/api/results",
+      "description": "获取查册结果"
+    },
+    {
+      "method": "POST",
+      "path": "/api/review",
+      "description": "提交复核决定"
+    },
+    {
+      "method": "GET",
+      "path": "/api/export",
+      "description": "导出结果"
+    }
+  ],
+  "data_models": [
+    {
+      "name": "Entity",
+      "fields": [
+        "id",
+        "name",
+        "registration_number",
+        "status",
+        "confidence_score"
+      ]
+    },
+    {
+      "name": "SearchResult",
+      "fields": [
+        "entity_id",
+        "company_name",
+        "registration_info",
+        "status",
+        "raw_data"
+      ]
+    }
+  ]
+}

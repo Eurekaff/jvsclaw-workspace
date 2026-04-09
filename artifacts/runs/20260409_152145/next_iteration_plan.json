@@ -1,0 +1,48 @@
+{
+  "iteration": "v0.2.0",
+  "timeline": "2 周",
+  "goals": [
+    "提升企业识别准确率至 95%+",
+    "增强 Excel 格式兼容性",
+    "添加基础自动化测试"
+  ],
+  "features": [
+    {
+      "name": "Excel 解析增强",
+      "priority": 1,
+      "estimate": "3 天",
+      "description": "支持合并单元格、多 sheet 等复杂格式"
+    },
+    {
+      "name": "识别算法优化",
+      "priority": 1,
+      "estimate": "3 天",
+      "description": "引入模糊匹配和上下文分析"
+    },
+    {
+      "name": "自动化测试",
+      "priority": 2,
+      "estimate": "2 天",
+      "description": "核心功能的单元测试和 E2E 测试"
+    },
+    {
+      "name": "错误处理增强",
+      "priority": 2,
+      "estimate": "2 天",
+      "description": "完善的错误提示和恢复机制"
+    }
+  ],
+  "metrics": {
+    "target_accuracy": "95%",
+    "target_parse_success_rate": "98%",
+    "test_coverage": "70%"
+  },
+  "risks": [
+    "查册 API 配额限制",
+    "测试数据不足"
+  ],
+  "dependencies": [
+    "查册 API 供应商支持",
+    "真实业务数据接入"
+  ]
+}

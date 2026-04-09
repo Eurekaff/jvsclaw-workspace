@@ -1,0 +1,23 @@
+{
+  "project_name": "测试项目",
+  "raw_brief": "这是一个测试项目",
+  "current_stage": "idea_input",
+  "approved_scope": null,
+  "tech_stack": [],
+  "constraints": [],
+  "artifacts_index": {
+    "idea_input/raw_brief.md": {
+      "path": "/home/admin/openclaw/workspace/artifacts/runs/20260409_152141/raw_brief.md",
+      "created_at": "2026-04-09T15:21:41.919366",
+      "status": "approved"
+    }
+  },
+  "pending_questions": [],
+  "validation_results": {},
+  "next_actions": [],
+  "metadata": {
+    "created_at": "2026-04-09T15:21:41.919292",
+    "updated_at": "2026-04-09T15:21:41.919304",
+    "version": "0.1.0"
+  }
+}

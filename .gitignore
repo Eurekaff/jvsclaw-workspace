@@ -13,3 +13,20 @@ memory/chats/
 temp/
 *.zip
 *.tar.gz
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+
+# Artifacts (keep example, exclude test runs)
+artifacts/runs/2026*/
+artifacts/runs/context_pack.*
+artifacts/runs/mvp_scope.*
+artifacts/runs/problem_definition.*
+artifacts/runs/structured_problem_definition.*
