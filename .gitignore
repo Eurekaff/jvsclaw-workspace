@@ -1,0 +1,15 @@
+# OpenClaw Workspace
+node_modules/
+*.log
+.env
+.env.local
+.DS_Store
+*.swp
+*.swo
+*~
+.openclaw/sessions/
+.openclaw/agents/*/sessions/
+memory/chats/
+temp/
+*.zip
+*.tar.gz
