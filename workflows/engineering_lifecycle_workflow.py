@@ -49,6 +49,8 @@ AGENT_MAP = {
     "quality_correction": QualityCorrectionAgent,
     "productization": ProductizationAgent,
     "retrospective": RetrospectiveAgent,
+    # 新增 Agent
+    "github_research": None,  # 可选，需要时启用
 }
 
 
