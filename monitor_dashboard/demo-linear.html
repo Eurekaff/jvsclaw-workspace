@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent 工作流监控面板 - Linear 设计系统</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background: #0D0D0F;
+            --background-secondary: #141416;
+            --background-tertiary: #1C1C1F;
+            --background-hover: #262629;
+            --foreground: #FFFFFF;
+            --foreground-secondary: #8A8F98;
+            --foreground-tertiary: #5C5F66;
+            --border: #262629;
+            --border-hover: #3D3F42;
+            --primary: #a855f7;
+            --primary-hover: #9333ea;
+            --success: #00c853;
+            --warning: #ffc107;
+            --error: #ff5252;
+            --info: #448aff;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            color: var(--foreground);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--background-secondary) 0%, var(--background-tertiary) 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 2rem;
+        }
+        
+        .header h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.25rem;
+        }
+        
+        .header p {
+            color: var(--foreground-secondary);
+            font-size: 0.875rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--background-secondary);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            transition: all 0.2s;
+        }
+        
+        .stat-card:hover {
+            border-color: var(--border-hover);
+            background: var(--background-tertiary);
+        }
+        
+        .stat-card h3 {
+            color: var(--foreground-secondary);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+        
+        .stat-label {
+            color: var(--foreground-tertiary);
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+        
+        .section {
+            background: var(--background-secondary);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .section h2 {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+        
+        .workflow-list {
+            list-style: none;
+        }
+        
+        .workflow-item {
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s;
+            background: var(--background-tertiary);
+        }
+        
+        .workflow-item:hover {
+            border-color: var(--border-hover);
+            background: var(--background-hover);
+        }
+        
+        .workflow-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .workflow-name {
+            font-weight: 500;
+            font-size: 0.9375rem;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.625rem;
+            border-radius: 9999px;
+            font-size: 0.6875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+        
+        .status-completed {
+            background: rgba(0, 200, 83, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(0, 200, 83, 0.2);
+        }
+        
+        .status-running {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(255, 193, 7, 0.2);
+        }
+        
+        .stages {
+            display: flex;
+            gap: 0.375rem;
+            flex-wrap: wrap;
+        }
+        
+        .stage {
+            background: var(--background-hover);
+            padding: 0.25rem 0.625rem;
+            border-radius: 0.25rem;
+            font-size: 0.6875rem;
+            color: var(--foreground-secondary);
+            border: 1px solid var(--border);
+        }
+        
+        .stage.completed {
+            background: rgba(168, 85, 247, 0.1);
+            color: var(--primary);
+            border-color: rgba(168, 85, 247, 0.2);
+        }
+        
+        .agent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 0.75rem;
+        }
+        
+        .agent-card {
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            padding: 1rem;
+            background: var(--background-tertiary);
+            transition: all 0.2s;
+        }
+        
+        .agent-card:hover {
+            border-color: var(--border-hover);
+            background: var(--background-hover);
+        }
+        
+        .agent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .agent-name {
+            font-weight: 500;
+            font-size: 0.875rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .agent-stage {
+            color: var(--foreground-secondary);
+            font-size: 0.75rem;
+        }
+        
+        .agent-stats {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .agent-stat {
+            font-size: 0.6875rem;
+            color: var(--foreground-tertiary);
+        }
+        
+        .agent-stat strong {
+            color: var(--foreground-secondary);
+            font-weight: 500;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--foreground-tertiary);
+            font-size: 0.875rem;
+        }
+        
+        .refresh-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .refresh-btn:hover {
+            background: var(--primary-hover);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+        }
+        
+        .api-link {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .api-link:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+        
+        .code {
+            background: var(--background-tertiary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8125rem;
+            border: 1px solid var(--border);
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--background-secondary);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--foreground-tertiary);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🤖 Agent 工作流监控面板</h1>
+        <p>Powered by Linear Design System</p>
+    </div>
+    
+    <div class="container">
+        <div style="text-align: right; margin-bottom: 1rem;">
+            <button class="refresh-btn" onclick="loadData()">⟳ 刷新数据</button>
+        </div>
+        
+        <!-- 统计卡片 -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <h3>总运行数</h3>
+                <div class="stat-value" id="totalRuns">-</div>
+                <div class="stat-label">所有工作流</div>
+            </div>
+            <div class="stat-card">
+                <h3>进行中</h3>
+                <div class="stat-value" id="activeRuns">-</div>
+                <div class="stat-label">当前活跃</div>
+            </div>
+            <div class="stat-card">
+                <h3>Agent 总数</h3>
+                <div class="stat-value" id="totalAgents">-</div>
+                <div class="stat-label">已注册</div>
+            </div>
+            <div class="stat-card">
+                <h3>完成数</h3>
+                <div class="stat-value" id="completedRuns">-</div>
+                <div class="stat-label">已完成</div>
+            </div>
+        </div>
+        
+        <!-- 工作流列表 -->
+        <div class="section">
+            <div class="section-header">
+                <h2>📋 最近工作流</h2>
+            </div>
+            <ul class="workflow-list" id="workflowList">
+                <li class="loading">加载中...</li>
+            </ul>
+        </div>
+        
+        <!-- Agent 列表 -->
+        <div class="section">
+            <div class="section-header">
+                <h2>🤖 Agent 状态</h2>
+            </div>
+            <div class="agent-grid" id="agentGrid">
+                <div class="loading">加载中...</div>
+            </div>
+        </div>
+        
+        <!-- API 信息 -->
+        <div class="section">
+            <div class="section-header">
+                <h2>🔌 API 信息</h2>
+            </div>
+            <p style="color: var(--foreground-secondary); font-size: 0.875rem; line-height: 1.75;">
+                后端 API: <a href="http://localhost:8001" class="api-link" target="_blank">http://localhost:8001</a><br>
+                API 文档：<a href="http://localhost:8001/docs" class="api-link" target="_blank">http://localhost:8001/docs</a><br>
+                完整前端：<span class="code">cd monitor_dashboard && docker-compose up -d</span>
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        const API_BASE = 'http://localhost:8001';
+        
+        async function loadData() {
+            try {
+                const dashboardRes = await fetch(`${API_BASE}/api/dashboard`);
+                const dashboard = await dashboardRes.json();
+                
+                document.getElementById('totalRuns').textContent = dashboard.total_runs;
+                document.getElementById('activeRuns').textContent = dashboard.active_runs;
+                document.getElementById('totalAgents').textContent = dashboard.total_agents;
+                document.getElementById('completedRuns').textContent = dashboard.completed_runs;
+                
+                const workflowsRes = await fetch(`${API_BASE}/api/workflows?limit=10`);
+                const workflows = await workflowsRes.json();
+                
+                const workflowList = document.getElementById('workflowList');
+                workflowList.innerHTML = workflows.map(run => `
+                    <li class="workflow-item">
+                        <div class="workflow-header">
+                            <span class="workflow-name">${run.project_name}</span>
+                            <span class="status-badge status-${run.status}">${run.status}</span>
+                        </div>
+                        <div style="font-size: 0.6875rem; color: var(--foreground-tertiary); margin-bottom: 0.5rem;">
+                            ID: ${run.run_id} | 阶段：${run.current_stage}
+                        </div>
+                        <div class="stages">
+                            ${run.stages.map(s => `
+                                <span class="stage ${s.status === 'completed' ? 'completed' : ''}">
+                                    ${s.name}
+                                </span>
+                            `).join('')}
+                        </div>
+                    </li>
+                `).join('');
+                
+                const agentsRes = await fetch(`${API_BASE}/api/agents`);
+                const agents = await agentsRes.json();
+                
+                const agentGrid = document.getElementById('agentGrid');
+                if (agents.length > 0) {
+                    agentGrid.innerHTML = agents.map(agent => `
+                        <div class="agent-card">
+                            <div class="agent-header">
+                                <span class="agent-name">${agent.name}</span>
+                                <span class="status-badge status-${agent.status}">${agent.status}</span>
+                            </div>
+                            <div class="agent-stage">阶段：${agent.stage}</div>
+                            <div class="agent-stats">
+                                <span class="agent-stat">Token: <strong>${agent.token_usage}</strong></span>
+                                <span class="agent-stat">消息：<strong>${agent.message_count}</strong></span>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    agentGrid.innerHTML = '<div class="loading">暂无 Agent 数据</div>';
+                }
+                
+            } catch (error) {
+                console.error('加载数据失败:', error);
+                document.getElementById('workflowList').innerHTML = 
+                    '<li class="loading" style="color: var(--error);">加载失败，请确保后端服务已启动</li>';
+            }
+        }
+        
+        loadData();
+        setInterval(loadData, 5000);
+    </script>
+</body>
+</html>
