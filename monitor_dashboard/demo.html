@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent 工作流监控面板 - 演示</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; }
+        .header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .header p { opacity: 0.9; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .stat-card h3 { color: #666; font-size: 0.875rem; margin-bottom: 0.5rem; }
+        .stat-value { font-size: 2.5rem; font-weight: bold; color: #333; }
+        .stat-label { color: #999; font-size: 0.875rem; margin-top: 0.25rem; }
+        .section { background: white; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .section h2 { font-size: 1.25rem; margin-bottom: 1rem; color: #333; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem; }
+        .workflow-list { list-style: none; }
+        .workflow-item { border: 1px solid #e0e0e0; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+        .workflow-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+        .workflow-name { font-weight: 600; color: #333; }
+        .status-badge { padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+        .status-completed { background: #d4edda; color: #155724; }
+        .status-running { background: #fff3cd; color: #856404; }
+        .stages { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .stage { background: #f0f0f0; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.75rem; }
+        .stage.completed { background: #d4edda; color: #155724; }
+        .agent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+        .agent-card { border: 1px solid #e0e0e0; border-radius: 8px; padding: 1rem; }
+        .agent-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+        .agent-name { font-weight: 600; color: #333; }
+        .agent-stage { color: #666; font-size: 0.875rem; }
+        .agent-stats { display: flex; gap: 1rem; margin-top: 0.5rem; }
+        .agent-stat { font-size: 0.75rem; color: #666; }
+        .agent-stat strong { color: #333; }
+        .loading { text-align: center; padding: 3rem; color: #666; }
+        .refresh-btn { background: #667eea; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.875rem; }
+        .refresh-btn:hover { background: #5568d3; }
+        .api-link { color: #667eea; text-decoration: none; }
+        .api-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🤖 Agent 工作流监控面板</h1>
+        <p>实时监控 Agent 状态、工作流进度和 Token 用量</p>
+    </div>
+    
+    <div class="container">
+        <div style="text-align: right; margin-bottom: 1rem;">
+            <button class="refresh-btn" onclick="loadData()">🔄 刷新数据</button>
+        </div>
+        
+        <!-- 统计卡片 -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <h3>总运行数</h3>
+                <div class="stat-value" id="totalRuns">-</div>
+                <div class="stat-label">所有工作流</div>
+            </div>
+            <div class="stat-card">
+                <h3>进行中</h3>
+                <div class="stat-value" id="activeRuns">-</div>
+                <div class="stat-label">当前活跃</div>
+            </div>
+            <div class="stat-card">
+                <h3>Agent 总数</h3>
+                <div class="stat-value" id="totalAgents">-</div>
+                <div class="stat-label">已注册</div>
+            </div>
+            <div class="stat-card">
+                <h3>完成数</h3>
+                <div class="stat-value" id="completedRuns">-</div>
+                <div class="stat-label">已完成</div>
+            </div>
+        </div>
+        
+        <!-- 工作流列表 -->
+        <div class="section">
+            <h2>📋 最近工作流</h2>
+            <ul class="workflow-list" id="workflowList">
+                <li class="loading">加载中...</li>
+            </ul>
+        </div>
+        
+        <!-- Agent 列表 -->
+        <div class="section">
+            <h2>🤖 Agent 状态</h2>
+            <div class="agent-grid" id="agentGrid">
+                <div class="loading">加载中...</div>
+            </div>
+        </div>
+        
+        <!-- API 信息 -->
+        <div class="section">
+            <h2>🔌 API 信息</h2>
+            <p style="color: #666;">
+                后端 API: <a href="http://localhost:8001" class="api-link" target="_blank">http://localhost:8001</a><br>
+                API 文档：<a href="http://localhost:8001/docs" class="api-link" target="_blank">http://localhost:8001/docs</a><br>
+                完整前端：<code style="background: #f0f0f0; padding: 0.25rem 0.5rem; border-radius: 4px;">cd monitor_dashboard && docker-compose up -d</code>
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        const API_BASE = 'http://localhost:8001';
+        
+        async function loadData() {
+            try {
+                // 加载仪表板数据
+                const dashboardRes = await fetch(`${API_BASE}/api/dashboard`);
+                const dashboard = await dashboardRes.json();
+                
+                // 更新统计卡片
+                document.getElementById('totalRuns').textContent = dashboard.total_runs;
+                document.getElementById('activeRuns').textContent = dashboard.active_runs;
+                document.getElementById('totalAgents').textContent = dashboard.total_agents;
+                document.getElementById('completedRuns').textContent = dashboard.completed_runs;
+                
+                // 加载工作流列表
+                const workflowsRes = await fetch(`${API_BASE}/api/workflows?limit=10`);
+                const workflows = await workflowsRes.json();
+                
+                const workflowList = document.getElementById('workflowList');
+                workflowList.innerHTML = workflows.map(run => `
+                    <li class="workflow-item">
+                        <div class="workflow-header">
+                            <span class="workflow-name">${run.project_name}</span>
+                            <span class="status-badge status-${run.status}">${run.status}</span>
+                        </div>
+                        <div style="font-size: 0.75rem; color: #666; margin-bottom: 0.5rem;">
+                            ID: ${run.run_id} | 阶段：${run.current_stage}
+                        </div>
+                        <div class="stages">
+                            ${run.stages.map(s => `
+                                <span class="stage ${s.status === 'completed' ? 'completed' : ''}">
+                                    ${s.name}
+                                </span>
+                            `).join('')}
+                        </div>
+                    </li>
+                `).join('');
+                
+                // 加载 Agent 列表
+                const agentsRes = await fetch(`${API_BASE}/api/agents`);
+                const agents = await agentsRes.json();
+                
+                const agentGrid = document.getElementById('agentGrid');
+                if (agents.length > 0) {
+                    agentGrid.innerHTML = agents.map(agent => `
+                        <div class="agent-card">
+                            <div class="agent-header">
+                                <span class="agent-name">${agent.name}</span>
+                                <span class="status-badge status-${agent.status}">${agent.status}</span>
+                            </div>
+                            <div class="agent-stage">阶段：${agent.stage}</div>
+                            <div class="agent-stats">
+                                <span class="agent-stat">Token: <strong>${agent.token_usage}</strong></span>
+                                <span class="agent-stat">消息：<strong>${agent.message_count}</strong></span>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    agentGrid.innerHTML = '<div class="loading">暂无 Agent 数据</div>';
+                }
+                
+            } catch (error) {
+                console.error('加载数据失败:', error);
+                document.getElementById('workflowList').innerHTML = 
+                    '<li class="loading">加载失败，请确保后端服务已启动</li>';
+            }
+        }
+        
+        // 页面加载时获取数据
+        loadData();
+        
+        // 每 5 秒自动刷新
+        setInterval(loadData, 5000);
+    </script>
+</body>
+</html>
