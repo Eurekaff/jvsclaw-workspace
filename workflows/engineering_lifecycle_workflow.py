@@ -27,6 +27,7 @@ from agents.mainline_build.agent import MainlineBuildAgent
 from agents.quality_correction.agent import QualityCorrectionAgent
 from agents.productization.agent import ProductizationAgent
 from agents.retrospective.agent import RetrospectiveAgent
+from agents.task_report.agent import TaskReportAgent
 
 
 # 阶段定义
@@ -242,13 +243,15 @@ class WorkflowOrchestrator:
         return input_data
     
     def run_full_workflow(self, raw_brief: str, project_name: str = None, 
-                         start_from: str = None, stop_at: str = None) -> ProjectState:
+                         start_from: str = None, stop_at: str = None,
+                         auto_generate_report: bool = True) -> ProjectState:
         """运行完整工作流"""
+        start_time = datetime.now()
+        
         # 启动或恢复
         if start_from is None:
             self.start(raw_brief, project_name)
         else:
-            # 从指定阶段开始
             self.start(raw_brief, project_name)
         
         # 确定阶段范围
@@ -261,18 +264,53 @@ class WorkflowOrchestrator:
             stages_to_run = STAGES[:stop_idx + 1]
         
         # 依次执行各阶段
+        steps_taken = []
+        artifacts_created = []
+        
         for stage in stages_to_run:
-            self.run_stage(stage, auto_approve=True)
+            output_files = self.run_stage(stage, auto_approve=True)
+            steps_taken.append(f"执行 {stage} 阶段")
+            artifacts_created.extend(output_files.keys())
         
         # 完成
         self.state.update_stage("completed")
         self.state.save(self.run_dir / "project_state.json")
+        
+        end_time = datetime.now()
         
         print(f"\n{'='*60}")
         print(f"🎉 工作流完成！")
         print(f"{'='*60}")
         print(f"📊 产出物目录：{self.run_dir}")
         print(f"📈 阶段数：{len(stages_to_run)}")
+        
+        # 自动生成任务报告
+        if auto_generate_report:
+            print(f"\n📝 生成任务报告...")
+            try:
+                report_agent = TaskReportAgent(str(self.workspace_root))
+                report_data = {
+                    "task_name": self.state["project_name"],
+                    "task_description": self.state["raw_brief"][:200],
+                    "start_time": start_time.isoformat(),
+                    "end_time": end_time.isoformat(),
+                    "status": "completed",
+                    "steps_taken": steps_taken,
+                    "artifacts_created": artifacts_created,
+                    "challenges": [],
+                    "solutions": [],
+                    "metrics": {
+                        "token_usage": 0,  # 待后续集成
+                        "api_calls": len(steps_taken),
+                        "files_modified": len(artifacts_created)
+                    },
+                    "lessons_learned": [],
+                    "next_steps": []
+                }
+                report_result = report_agent.run(report_data)
+                print(f"✅ 报告已生成：{report_result.get('report_filename', 'N/A')}")
+            except Exception as e:
+                print(f"⚠️  报告生成失败：{e}")
         
         return self.state
     
