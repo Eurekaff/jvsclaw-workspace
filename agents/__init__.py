@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """
 Agent Base Class - 所有工程生命周期 agent 的基类
+
+集成 Skills 和 Tools 调用能力
 """
 
 import json
@@ -9,6 +11,11 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 from pathlib import Path
+
+# 导入 skill 和 tool 集成
+import sys
+sys.path.insert(0, str(Path(__file__).parent.parent / "tools"))
+from skill_tool_integration import AgentIntegration, get_integration
 
 
 class AgentBase(ABC):
@@ -37,6 +44,10 @@ class AgentBase(ABC):
         self.artifacts_dir = Path(artifacts_dir) if artifacts_dir else self.workspace_root / "artifacts" / "runs"
         self.artifacts_dir.mkdir(parents=True, exist_ok=True)
         
+        # 初始化 skill 和 tool 集成
+        self.integration = get_integration(str(workspace_root))
+        self.skills_context = self.integration.create_agent_context(self.AGENT_NAME)
+        
     def load_input(self, filename: str) -> Optional[str]:
         """加载输入文件"""
         filepath = self.artifacts_dir / filename
@@ -59,6 +70,70 @@ class AgentBase(ABC):
         with open(filepath, 'w', encoding='utf-8') as f:
             f.write(content)
         return str(filepath)
+    
+    # ========== Skill 和 Tool 调用方法 ==========
+    
+    def use_skill(self, skill_name: str, **kwargs) -> Any:
+        """
+        调用 skill
+        
+        Args:
+            skill_name: skill 名称
+            **kwargs: skill 参数
+            
+        Returns:
+            skill 执行结果
+        """
+        print(f"🔮 [{self.AGENT_NAME}] 使用 skill: {skill_name}")
+        return self.integration.call_skill(skill_name, **kwargs)
+    
+    def use_tool(self, tool_name: str, **kwargs) -> Any:
+        """
+        调用 tool
+        
+        Args:
+            tool_name: tool 名称
+            **kwargs: tool 参数
+            
+        Returns:
+            tool 执行结果
+        """
+        print(f"🔧 [{self.AGENT_NAME}] 使用 tool: {tool_name}")
+        return self.integration.call_tool(tool_name, **kwargs)
+    
+    def get_available_skills(self) -> List[str]:
+        """获取可用 skills 列表"""
+        return self.skills_context['available_skills']
+    
+    def get_available_tools(self) -> List[str]:
+        """获取可用 tools 列表"""
+        return self.skills_context['available_tools']
+    
+    def execute_with_tools(self, task: str, tools: List[str] = None) -> Dict:
+        """
+        使用 tools 执行任务
+        
+        Args:
+            task: 任务描述
+            tools: 要使用的 tools 列表
+            
+        Returns:
+            执行结果
+        """
+        result = {
+            "task": task,
+            "tools_used": tools or [],
+            "results": {},
+            "timestamp": datetime.now().isoformat()
+        }
+        
+        if tools:
+            for tool_name in tools:
+                print(f"🔧 [{self.AGENT_NAME}] 使用 tool: {tool_name}")
+                tool_result = self.use_tool(tool_name)
+                result["results"][tool_name] = tool_result
+        
+        return result
     
     def save_json_output(self, filename: str, data: Dict) -> str:
         """保存 JSON 输出"""
