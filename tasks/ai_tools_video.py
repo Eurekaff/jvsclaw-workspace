@@ -30,13 +30,17 @@ class AIToolsVideoGenerator:
         img = Image.new('RGB', size, color=(26, 26, 46))
         draw = ImageDraw.Draw(img)
         
-        # 尝试加载字体
+        # 加载中文字体
         try:
-            font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", fontsize)
-            small_font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 40)
+            font = ImageFont.truetype("/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc", fontsize)
+            small_font = ImageFont.truetype("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc", 40)
         except:
-            font = ImageFont.load_default()
-            small_font = font
+            try:
+                font = ImageFont.truetype("/usr/share/fonts/arphic/ukai.ttc", fontsize)
+                small_font = ImageFont.truetype("/usr/share/fonts/arphic/ukai.ttc", 40)
+            except:
+                font = ImageFont.load_default()
+                small_font = font
         
         # 绘制主文字
         bbox = draw.textbbox((0, 0), text, font=font)
