@@ -1,0 +1,182 @@
+{
+  "topic": "AI 工具推荐",
+  "generated_at": "2026-04-10T10:18:24.298499",
+  "platforms": [
+    "xiaohongshu",
+    "douyin",
+    "weibo",
+    "twitter"
+  ],
+  "versions": {
+    "xiaohongshu": {
+      "platform": "小红书",
+      "content": {
+        "type": "text",
+        "title": "😭 AI 工具推荐！真的绝了！！",
+        "text": "❌ 姐妹们！！我真的要按头安利这个！！💯\n\n😭 作为一个常年熬夜/追求品质的人\n 我之前也踩过很多坑😢\n😍 但是这个！！真的用一次就爱了！！\n\n❌ ✨使用感受：\n✅ - 提高效率 10 倍\n💯 - 节省时间\n🔥 - 易于上手\n\n✨ 说实话，包装一般般/价格小贵\n😭 但是！！效果真的没话说！\n❌ 我已经回购第三瓶了！！\n\n😭 姐妹们冲！不踩雷！！",
+        "tags": [
+          "AI工具推荐",
+          "推荐",
+          "分享",
+          "好物分享",
+          "种草",
+          "测评",
+          "必备",
+          "安利"
+        ],
+        "format": "markdown"
+      },
+      "style": {
+        "name": "小红书",
+        "max_length": 800,
+        "min_length": 300,
+        "title_max_length": 20,
+        "emoji_level": "high",
+        "tone": "sister_chat",
+        "structure": "pain_point + experience + comparison + recommend",
+        "tags_count": [
+          5,
+          10
+        ],
+        "format": "markdown",
+        "features": [
+          "emoji 开头",
+          "姐妹称呼",
+          "情绪化表达",
+          "个人体验",
+          "前后对比",
+          "小缺点",
+          "标签"
+        ]
+      },
+      "authenticity_score": {
+        "score": 10,
+        "level": "high",
+        "suggestions": []
+      },
+      "word_count": 173,
+      "generated_at": "2026-04-10T10:18:24.298380"
+    },
+    "douyin": {
+      "platform": "抖音",
+      "content": {
+        "type": "script",
+        "script": "【0-3s】钩子\n⚠️千万别买这个！除非你想...\n\n【3-10s】痛点\n是不是经常...？\n用了很多方法都没用？\n\n【10-30s】解决方案\n试试这个！我用了7天\n（展示使用过程）\n\n【30-50s】效果\n看！这是之前...\n这是现在...\n\n【50-60s】互动\n想知道是什么吗？\n评论区告诉我！\n\nBGM 建议：热门轻快节奏\n字幕：关键词高亮",
+        "duration": 60,
+        "format": "script"
+      },
+      "style": {
+        "name": "抖音",
+        "max_length": 300,
+        "duration": 60,
+        "hook_time": 3,
+        "emoji_level": "medium",
+        "tone": "dramatic",
+        "structure": "hook + pain_amplify + solution + demo + cta",
+        "format": "script",
+        "features": [
+          "3 秒钩子",
+          "快节奏",
+          "镜头标注",
+          "BGM 建议",
+          "字幕",
+          "互动引导"
+        ]
+      },
+      "authenticity_score": {
+        "score": 10,
+        "level": "high",
+        "suggestions": []
+      },
+      "word_count": 174,
+      "generated_at": "2026-04-10T10:18:24.298423"
+    },
+    "weibo": {
+      "platform": "微博",
+      "content": {
+        "type": "text",
+        "title": "# AI 工具推荐# 用了 1 个月，说点真话",
+        "text": "✨ # AI 工具# 用了 1 个月，说点真话：\n\n💯 1. 确实有效果\n✨ 2. 但需要坚持\n💯 3. 性价比还行\n\n 你们觉得呢？评论区聊聊👇",
+        "tags": [
+          "AI工具推荐",
+          "推荐",
+          "分享"
+        ],
+        "format": "text"
+      },
+      "style": {
+        "name": "微博",
+        "max_length": 140,
+        "emoji_level": "medium",
+        "tone": "casual",
+        "structure": "topic + opinion + emotion + question",
+        "tags_count": [
+          1,
+          3
+        ],
+        "format": "text",
+        "features": [
+          "蹭热点",
+          "话题标签",
+          "简短",
+          "互动提问"
+        ]
+      },
+      "authenticity_score": {
+        "score": 10,
+        "level": "high",
+        "suggestions": []
+      },
+      "word_count": 73,
+      "generated_at": "2026-04-10T10:18:24.298475"
+    },
+    "twitter": {
+      "platform": "Twitter",
+      "content": {
+        "type": "text",
+        "title": "AI 工具推荐",
+        "text": "这是一款非常好用的 AI 工具，可以提高工作效率。",
+        "tags": [
+          "AI工具推荐",
+          "推荐",
+          "分享"
+        ],
+        "format": "text"
+      },
+      "style": {
+        "name": "Twitter",
+        "max_length": 280,
+        "emoji_level": "low",
+        "tone": "direct",
+        "structure": "highlight + details + link + hashtags",
+        "tags_count": [
+          2,
+          3
+        ],
+        "format": "text",
+        "features": [
+          "简洁",
+          "直接",
+          "链接",
+          "英文标签"
+        ]
+      },
+      "authenticity_score": {
+        "score": 10,
+        "level": "high",
+        "suggestions": []
+      },
+      "word_count": 25,
+      "generated_at": "2026-04-10T10:18:24.298495"
+    }
+  },
+  "summary": {
+    "total_platforms": 4,
+    "platforms_done": [
+      "xiaohongshu",
+      "douyin",
+      "weibo",
+      "twitter"
+    ]
+  }
+}

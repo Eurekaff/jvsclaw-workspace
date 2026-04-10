@@ -1,0 +1,88 @@
+{
+  "checked_at": "2026-04-10T10:18:24.399309",
+  "platform": "xiaohongshu",
+  "content_type": "text",
+  "total_score": 5.8,
+  "level": "🟡 有明显 AI 痕迹",
+  "checks": {
+    "language": {
+      "dimension": "language",
+      "score": 6.0,
+      "issues": [
+        "AI 词汇过多 (8个)",
+        "缺少真人化词汇"
+      ],
+      "details": {
+        "ai_words": 8,
+        "human_words": 0,
+        "emotion_words": 2,
+        "avg_sentence_length": 12.6
+      }
+    },
+    "content": {
+      "dimension": "content",
+      "score": 6.0,
+      "issues": [
+        "缺少个人故事",
+        "缺少具体细节",
+        "太完美，不真实"
+      ],
+      "details": {
+        "has_story": false,
+        "has_details": false,
+        "has_comparison": true,
+        "has_flaw": false
+      }
+    },
+    "interaction": {
+      "dimension": "interaction",
+      "score": 5.0,
+      "issues": [
+        "缺少称呼",
+        "缺少互动提问",
+        "缺少互动引导"
+      ],
+      "details": {
+        "has_address": false,
+        "has_question": false,
+        "has_cta": false
+      }
+    },
+    "format": {
+      "dimension": "format",
+      "score": 6.0,
+      "issues": [
+        "emoji 太少 (0个，建议10-30个)",
+        "标签太少",
+        "分段太少"
+      ],
+      "details": {
+        "emoji_count": 0,
+        "tag_count": 0,
+        "paragraph_count": 1
+      }
+    }
+  },
+  "suggestions": [
+    "💡 语言优化:",
+    "  - 替换 AI 词汇：非常→真的，显著→超",
+    "  - 添加真人词汇：绝了、真香、救命",
+    "📖 内容优化:",
+    "  - 添加个人故事：'我之前...有一次...'",
+    "  - 添加具体细节：时间、地点、场景",
+    "  - 添加小缺点：'包装一般但效果好'",
+    "💬 互动优化:",
+    "  - 添加称呼：'姐妹们'、'家人们'",
+    "  - 添加提问：'你们觉得呢？'",
+    "  - 添加引导：'评论区告诉我'",
+    "📐 格式优化:",
+    "  - 添加 emoji (当前0个)",
+    "  - 增加分段，提高可读性",
+    "\n📕 小红书特化：姐妹语气 + 大量 emoji+ 标签"
+  ],
+  "ai_probability": {
+    "probability": 90,
+    "level": "high"
+  },
+  "passed": false
+}
