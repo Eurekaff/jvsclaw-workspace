@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 工具推荐 - 抖音视频</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            width: 1080px;
+            height: 1920px;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .scene {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            animation: none;
+        }
+        
+        .text {
+            color: white;
+            font-size: 72px;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: bounceIn 0.5s ease-out;
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        /* 场景 1: 0-3 秒 */
+        .scene-1 { animation: showScene1 3s forwards; }
+        @keyframes showScene1 {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        /* 场景 2: 3-10 秒 */
+        .scene-2 { animation: showScene2 7s forwards; animation-delay: 3s; }
+        @keyframes showScene2 {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        /* 场景 3: 10-20 秒 */
+        .scene-3 { animation: showScene3 10s forwards; animation-delay: 10s; }
+        @keyframes showScene3 {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        /* 场景 4: 20-25 秒 */
+        .scene-4 { animation: showScene4 5s forwards; animation-delay: 20s; }
+        @keyframes showScene4 {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        /* 场景 5: 25-35 秒 */
+        .scene-5 { animation: showScene5 10s forwards; animation-delay: 25s; }
+        @keyframes showScene5 {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        /* 场景 6: 35-40 秒 */
+        .scene-6 { animation: showScene6 5s forwards; animation-delay: 35s; }
+        @keyframes showScene6 {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        /* 场景 7: 40-45 秒 */
+        .scene-7 { animation: showScene7 5s forwards; animation-delay: 40s; }
+        @keyframes showScene7 {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        /* 场景 8: 45-50 秒 */
+        .scene-8 { animation: showScene8 5s forwards; animation-delay: 45s; }
+        @keyframes showScene8 {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        /* 场景 9: 50-60 秒 */
+        .scene-9 { animation: showScene9 10s forwards; animation-delay: 50s; }
+        @keyframes showScene9 {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        .emoji { font-size: 100px; display: block; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <!-- 场景 1 (0-3s) -->
+    <div class="scene scene-1">
+        <div class="text">
+            <span class="emoji">⚠️</span>
+            别再手动工作了！
+        </div>
+    </div>
+    
+    <!-- 场景 2 (3-10s) -->
+    <div class="scene scene-2">
+        <div class="text">每天加班到深夜？</div>
+    </div>
+    
+    <!-- 场景 3 (10-20s) -->
+    <div class="scene scene-3">
+        <div class="text">
+            <span class="emoji">📝</span>
+            工具 1：自动写文档
+        </div>
+    </div>
+    
+    <!-- 场景 4 (20-25s) -->
+    <div class="scene scene-4">
+        <div class="text">
+            <span class="emoji">⚡</span>
+            3 秒生成！
+        </div>
+    </div>
+    
+    <!-- 场景 5 (25-35s) -->
+    <div class="scene scene-5">
+        <div class="text">
+            <span class="emoji">📊</span>
+            工具 2：自动做 PPT
+        </div>
+    </div>
+    
+    <!-- 场景 6 (35-40s) -->
+    <div class="scene scene-6">
+        <div class="text">
+            <span class="emoji">🚀</span>
+            效率翻倍！
+        </div>
+    </div>
+    
+    <!-- 场景 7 (40-45s) -->
+    <div class="scene scene-7">
+        <div class="text">之前 3 小时</div>
+    </div>
+    
+    <!-- 场景 8 (45-50s) -->
+    <div class="scene scene-8">
+        <div class="text">现在 3 分钟</div>
+    </div>
+    
+    <!-- 场景 9 (50-60s) -->
+    <div class="scene scene-9">
+        <div class="text">
+            评论区领工具👇
+        </div>
+    </div>
+    
+    <script>
+        // 60 秒后停止
+        setTimeout(() => {
+            console.log('视频完成');
+        }, 60000);
+    </script>
+</body>
+</html>
