@@ -28,6 +28,7 @@ from agents.quality_correction.agent import QualityCorrectionAgent
 from agents.productization.agent import ProductizationAgent
 from agents.retrospective.agent import RetrospectiveAgent
 from agents.task_report.agent import TaskReportAgent
+from agents.learning_loop.agent import LearningLoopAgent
 
 
 # 阶段定义
@@ -300,7 +301,7 @@ class WorkflowOrchestrator:
                     "challenges": [],
                     "solutions": [],
                     "metrics": {
-                        "token_usage": 0,  # 待后续集成
+                        "token_usage": 0,
                         "api_calls": len(steps_taken),
                         "files_modified": len(artifacts_created)
                     },
@@ -309,6 +310,17 @@ class WorkflowOrchestrator:
                 }
                 report_result = report_agent.run(report_data)
                 print(f"✅ 报告已生成：{report_result.get('report_filename', 'N/A')}")
+                
+                # 🧠 新增：执行学习循环
+                print(f"\n🧠 执行学习循环...")
+                learning_agent = LearningLoopAgent(str(self.workspace_root))
+                learning_result = learning_agent.run({
+                    "task_report": report_data
+                })
+                print(f"✅ 学习循环完成")
+                print(f"   📚 提取学习点：{learning_result.get('learnings_count', 0)}")
+                print(f"   🛠️ 创建技能：{learning_result.get('skills_created', 0)}")
+                
             except Exception as e:
                 print(f"⚠️  报告生成失败：{e}")
         
