@@ -1,0 +1,122 @@
+{
+  "captured_at": "2026-04-15T09:00:01.622340",
+  "total_trends": 7,
+  "knowledge_topics_count": 5,
+  "knowledge_topics": [
+    {
+      "topic": "有哪些相见恨晚的 AI 工具？",
+      "priority": "high",
+      "heat_score": 99,
+      "topic_value": 75,
+      "keywords": [
+        "有哪些相见恨晚的",
+        "AI",
+        "工具？"
+      ],
+      "platforms": [
+        "zhihu"
+      ],
+      "suggested_formats": [
+        "文章",
+        "图文"
+      ],
+      "reason": "技术热点 + 情感共鸣 + 问题形式 + 列表形式",
+      "category": "knowledge"
+    },
+    {
+      "topic": "如何提高工作效率？",
+      "priority": "high",
+      "heat_score": 98,
+      "topic_value": 55,
+      "keywords": [
+        "如何提高工作效率？"
+      ],
+      "platforms": [
+        "zhihu"
+      ],
+      "suggested_formats": [
+        "文章",
+        "图文"
+      ],
+      "reason": "技术热点 + 问题形式 + 列表形式",
+      "category": "knowledge"
+    },
+    {
+      "topic": "效率工具推荐",
+      "priority": "high",
+      "heat_score": 100,
+      "topic_value": 50,
+      "keywords": [
+        "效率工具推荐"
+      ],
+      "platforms": [
+        "weibo"
+      ],
+      "suggested_formats": [
+        "文章",
+        "图文"
+      ],
+      "reason": "技术热点 + 情感共鸣",
+      "category": "knowledge"
+    },
+    {
+      "topic": "AI 工具实测",
+      "priority": "high",
+      "heat_score": 99,
+      "topic_value": 30,
+      "keywords": [
+        "AI",
+        "工具实测"
+      ],
+      "platforms": [
+        "douyin"
+      ],
+      "suggested_formats": [
+        "文章",
+        "图文"
+      ],
+      "reason": "技术热点",
+      "category": "knowledge"
+    },
+    {
+      "topic": "AI 工具横评",
+      "priority": "medium",
+      "heat_score": 99,
+      "topic_value": 30,
+      "keywords": [
+        "AI",
+        "工具横评"
+      ],
+      "platforms": [
+        "bilibili"
+      ],
+      "suggested_formats": [
+        "文章",
+        "图文"
+      ],
+      "reason": "技术热点",
+      "category": "knowledge"
+    }
+  ],
+  "top_recommendation": {
+    "topic": "有哪些相见恨晚的 AI 工具？",
+    "priority": "high",
+    "heat_score": 99,
+    "topic_value": 75,
+    "keywords": [
+      "有哪些相见恨晚的",
+      "AI",
+      "工具？"
+    ],
+    "platforms": [
+      "zhihu"
+    ],
+    "suggested_formats": [
+      "文章",
+      "图文"
+    ],
+    "reason": "技术热点 + 情感共鸣 + 问题形式 + 列表形式",
+    "category": "knowledge"
+  },
+  "platforms_scanned": 4
+}
